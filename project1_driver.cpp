@@ -1,59 +1,77 @@
 /*
-**  
-** Project Name P1
-** 
-** Project Purpose: Process indivual federal taxes, users will be indentified through a social security number. The program will get income and ssn then return federal income taxes. This program will run until user wishes to quit.
-** 
-** Author: Trey Davis
-** 
-** Date Created: 10/29/2023
-** 
-** Date Last Modified: 10/31/23 
-** 
-** 
+//  
+// Project Name P1
+// 
+// Project Purpose: Process indivual federal taxes, users will be indentified through a social security number. The program will get income and ssn then return federal income taxes. This program will run until user wishes to quit.
+// 
+// Author: Trey Davis
+// 
+// Date Created: 10/29/2023
+// 
+// Date Last Modified: 10/31/23 
+// 
+// 
 */
-#include<stdio.h>
-#include<iostream>
-#include<iomanip>
-#define checkIfYes choice == "y" || choice == "Y" || choice == "yes" || choice == "Yes" || choice == "YEs" || choice == "YES" || choice == "yES" || choice == "yEs" || choice == "yeS" || choice == "YeS"
-#define checkIfNo choice == "n" || choice == "N" || choice == "no" || choice == "No" || choice == "nO" || choice == "NO" 
+#include<stdio.h> // Streller you said always include this...
+#include<iostream> // For input and output operations
+#include<iomanip> // For flag setprecision()
+/* Lines 19 and 20 define checking user choice for yes and no for all cases */
+#define checkIfYes Choice == "y" || Choice == "Y" || Choice == "yes" || Choice == "Yes" || Choice == "YEs" || Choice == "YES" || Choice == "yES" || Choice == "yEs" || Choice == "yeS" || Choice == "YeS"
+#define checkIfNo Choice == "n" || Choice == "N" || Choice == "no" || Choice == "No" || Choice == "nO" || Choice == "NO" 
 
 using namespace std;
-string getSocialSecurityNumber();
-int getIncome();
-double evaluateFederalIncomeTax(int income);
-void showFederalIncomeTax(string socialSecurityNumber, double tax);
-bool checkUserChoice();
+// This gets the social security of the user and returns it.
+string GetSocialSecurityNumber(); 
+// This function returns the income.
+int GetIncome();  
+// This computes the federal income tax of the user
+double EvaluateFederalIncomeTax(int Income); // This value stores income obviously 
+// This displays a message of this format "Hello user [ssn] here is your federal income tax [tax]."
+void ShowFederalIncomeTax(string SocialSecurityNumber, // Stores social security number obviously. 
+				         double Tax); // Stores taxes obviously.
+bool CheckUserChoice(); // This checks if the user wants to continue.
 
 int main() 
 {
 	cout << fixed << setprecision(2) << showpoint;
-	bool still = true;
-	while (still)
+	bool Still = true; // This stores whether the user wants to continue or not.
+	while (Still) // Keeps going until user chooses to exit 
 	{
-		string socialSecurityNumber = getSocialSecurityNumber();
-		int income = getIncome();
-		double tax = evaluateFederalIncomeTax(income);
-		showFederalIncomeTax(socialSecurityNumber, tax);
-		still = checkUserChoice();
+		string SocialSecurityNumber = GetSocialSecurityNumber(); // This variable stores ssn.
+		int Income = GetIncome(); // This variable stores income
+		double Tax = EvaluateFederalIncomeTax(Income); // This stores the tax
+		ShowFederalIncomeTax(SocialSecurityNumber, Tax);
+		Still = CheckUserChoice(); // Check if user wants to continue
 	}
 	return 0;
 }
 
-
-int getIncome() 
+//************************************************
+//  Function Name: GetIncome()
+//  Purpose: It's in the same, but it also returns income
+//  Parameters:  You expected parameters?
+//  Return Value: The income
+//  Non-Local Variables Used: 0
+//  Functions Called: iostream.clear(), iostream.ignore()
+//
+//
+//
+//************************************************
+//
+int GetIncome() 
 {
-	int income = 0;
+	int Income = 0; // Stores income
 	while (true)
 	{
 		cout << "Please enter income: " << endl << endl;
-		cin >> income;
-		if (!cin)
+		cin >> Income;
+		if (!cin) // Checks for input failure
 		{
 			cerr << "Invalid input please enter integer income " << endl << endl;
+		    /* Lines 55 and 56 clear the buffer of input failure, and the characters that cause the failure. */
 			cin.clear();
-			cin.ignore(1e7, '\n');
-			income = 0;
+			cin.ignore(1e7, '\n'); 
+			Income = 0;
 			continue;
 		}
 		else
@@ -63,20 +81,29 @@ int getIncome()
 		}
 	}
 
-	return income;
+	return Income;
 }
 
-string getSocialSecurityNumber() 
+
+
+//************************************************
+// 
+// 
+// 
+//
+//  
+//************************************************
+string GetSocialSecurityNumber() 
 {
 	string ssn; 
-	while (true)
+	while (true) // This loop keeps going until a valid ssn is inputed
 	{
 		cout << "Please input Social Security Number: ";
-		bool validSsn = true;
+		bool validSsn = true; // This stores is Social Security Number is valid
 		cin >> ssn;
-		for (int i = 0; i < ssn.size(); i++) 
+		for (int i = 0; i < ssn.size(); i++) // Checks if social security number is only composed of digits 0-9 and is only 9 digits long
 		{
-			char index = ssn.at(i);
+			char index = ssn.at(i); // Stores current character in string
 			if (index <= '9' && index >= '0')
 			{
 				validSsn = true;
@@ -99,13 +126,13 @@ string getSocialSecurityNumber()
 	return ssn;
 }
 
-bool checkUserChoice() 
+bool CheckUserChoice() 
 {
-	while (true)
+	while (true) // This while loop checks for valid choices, and keeps running until a valid choice is chosen.
 	{
 		cout << "\n\nPlease input if you want to still continue y/n" << endl << endl;
-		string choice;
-		cin >> choice;
+		string Choice; // This stores user choice
+		cin >> Choice;
 		if (checkIfYes)
 		{
 			return true;
@@ -120,48 +147,43 @@ bool checkUserChoice()
 			continue;
 		}
 	}
-	return false;
-}
-
-string strToLower()
-{
-	return "";
+	return false; // When the loop is broken out of it returns false goes back to main ending the program.
 }
 
 
-double evaluateFederalIncomeTax(int income) 
+double EvaluateFederalIncomeTax(int Income) 
 {
-	double tax = 0;
-	if (income > 0 && income < 24'650)
+	double Tax = 0; // Stores taxes
+	if (Income > 0 && Income < 24'650)
 	{
-		tax += (income * .15);
+		Tax += (Income * .15);
 	}
-	else if (income > 24'650 && income < 59'750)
+	else if (Income >= 24'650 && Income < 59'750)
 	{
-		tax += 3'697.5 + (income * .28);
-	}
-
-	else if (income > 59'750 && income < 124'650)
-	{
-		tax += 13'524.5 + ((income -= 59'750) * .31);
+		Tax += 3'697.5 + (Income * .28);
 	}
 
-	else if (income > 124'650 && income < 271'050)
+	else if (Income >= 59'750 && Income < 124'650)
 	{
-		tax += 33'644.5 + ((income -= 124'650) * .36);
+		Tax += 13'524.5 + ((Income -= 59'750) * .31);
 	}
 
-	else if (income > 271'050) 
+	else if (Income >= 124'650 && Income < 271'050)
 	{
-		tax += 86'348.5 + ((income -= 271'050) * .396);
+		Tax += 33'644.5 + ((Income -= 124'650) * .36);
 	}
 
-	return tax;
+	else if (Income >= 271'050) 
+	{
+		Tax += 86'348.5 + ((Income -= 271'050) * .396);
+	}
+
+	return Tax;
 }
 
 
 
-void showFederalIncomeTax(string socialSecurityNumber, double tax) 
+void ShowFederalIncomeTax(string SocialSecurityNumber, double Tax) 
 {
-	cout << "Hello " << socialSecurityNumber << " here is your federal income tax  " << tax;
+	cout << "Hello " << SocialSecurityNumber << " here is your federal income tax  " << Tax; // Outputs user federal income tax.
 }
