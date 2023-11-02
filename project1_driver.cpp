@@ -1,6 +1,6 @@
-/*
+/*************************************************
 //  
-// Project Name P1
+// Project Name: P1
 // 
 // Project Purpose: Process indivual federal taxes, users will be indentified through a social security number. The program will get income and ssn then return federal income taxes. This program will run until user wishes to quit.
 // 
@@ -8,10 +8,10 @@
 // 
 // Date Created: 10/29/2023
 // 
-// Date Last Modified: 10/31/23 
+// Date Last Modified: 1/2/23 
 // 
 // 
-*/
+*************************************************/
 #include<stdio.h> // Streller you said always include this...
 #include<iostream> // For input and output operations
 #include<iomanip> // For flag setprecision()
@@ -63,11 +63,11 @@ int GetIncome()
 	int Income = 0; // Stores income
 	while (true)
 	{
-		cout << "Please enter income: " << endl << endl;
+		cout << endl << "Please enter income: " << endl << endl;
 		cin >> Income;
 		if (!cin) // Checks for input failure
 		{
-			cerr << "Invalid input please enter integer income " << endl << endl;
+			cerr << endl << "Invalid input please enter integer income " << endl << endl;
 		    /* Lines 55 and 56 clear the buffer of input failure, and the characters that cause the failure. */
 			cin.clear();
 			cin.ignore(1e7, '\n'); 
@@ -102,12 +102,22 @@ string GetSocialSecurityNumber()
 		cout << "Please input Social Security Number: ";
 		bool validSsn = true; // This stores is Social Security Number is valid
 		cin >> ssn;
-		for (int i = 0; i < ssn.size(); i++) // Checks if social security number is only composed of digits 0-9 and is only 9 digits long
+		for (int i = 0; i < ssn.size(); i++) // Checks if social security number is only composed of digits 0-9, is only 9 digits long, and is not all zero 
 		{
+			int noOfZeroes = 0; // Checks number of zeroes
 			char index = ssn.at(i); // Stores current character in string
-			if (index <= '9' && index >= '0')
+			if (index <= '9' && index >= '0') // Checks if digit is valid and if there's any all zero Social Security Number
 			{
+				if (index == '0') // This both increments noOfZeroes and if the Social Security Number
+				{
+					noOfZeroes++;
+					if (noOfZeroes == 9)
+					{
+						validSsn = false;
+					}
+				}
 				validSsn = true;
+
 				break;
 			}
 			else 
@@ -115,7 +125,7 @@ string GetSocialSecurityNumber()
 				validSsn = false;
 				break;
 			}
-		}
+		} // Checks if digit is valid and if there's any all zero ssn
 		if (!cin || ssn.size() != 9 || validSsn == false)
 		{
 			cerr << "Invalid input please input an integer Social Security Number 9 characters long in the form xxxxxxxxx." << endl << endl;
@@ -212,5 +222,5 @@ double EvaluateFederalIncomeTax(int Income)
 //************************************************
 void ShowFederalIncomeTax(string SocialSecurityNumber, double Tax) 
 {
-	cout << "Hello " << SocialSecurityNumber << " here is your federal income tax  " << Tax; // Outputs user federal income tax.
+	cout << endl << "Hello " << SocialSecurityNumber << " here is your federal income tax  ." << Tax; // Outputs user federal income tax.
 }
