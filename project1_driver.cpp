@@ -99,12 +99,12 @@ string GetSocialSecurityNumber()
 	string ssn; 
 	while (true) // This loop keeps going until a valid ssn is inputed
 	{
-		cout << "Please input Social Security Number: ";
 		bool validSsn = true; // This stores is Social Security Number is valid
+		int noOfZeroes = 0; // Checks number of zeroes
+		cout << "Please input Social Security Number: ";
 		cin >> ssn;
 		for (int i = 0; i < ssn.size(); i++) // Checks if social security number is only composed of digits 0-9, is only 9 digits long, and is not all zero 
 		{
-			int noOfZeroes = 0; // Checks number of zeroes
 			char index = ssn.at(i); // Stores current character in string
 			if (index <= '9' && index >= '0') // Checks if digit is valid and if there's any all zero Social Security Number
 			{
@@ -114,11 +114,11 @@ string GetSocialSecurityNumber()
 					if (noOfZeroes == 9)
 					{
 						validSsn = false;
+						break;
 					}
 				}
 				validSsn = true;
-
-				break;
+				continue;
 			}
 			else 
 			{
@@ -128,7 +128,8 @@ string GetSocialSecurityNumber()
 		} // Checks if digit is valid and if there's any all zero ssn
 		if (!cin || ssn.size() != 9 || validSsn == false)
 		{
-			cerr << "Invalid input please input an integer Social Security Number 9 characters long in the form xxxxxxxxx." << endl << endl;
+			cerr << "Invalid input please input an integer Social Security Number 9 characters long, in the form xxxxxxxxx";
+			cerr <<	",and at least one non-zero character." << endl << endl;
 			cin.ignore(1000000, '\n');
 		}
 		else
@@ -154,13 +155,9 @@ bool CheckUserChoice()
 		string Choice; // This stores user choice
 		cin >> Choice;
 		if (CHECKIFYES)
-		{
 			return true;
-		}
 		else if (CHECKIFNO)
-		{
 			break;
-		}
 		else 
 		{
 			cerr << "Invalid input please input either y or n";
@@ -183,6 +180,8 @@ bool CheckUserChoice()
 double EvaluateFederalIncomeTax(int Income) 
 {
 	double Tax = 0; // Stores taxes
+	if (Income < 0) // Makes income positive if negative.
+		Income *= -1; 
 	if (Income > 0 && Income < 24'650)
 	{
 		Tax += (Income * .15);
@@ -222,5 +221,5 @@ double EvaluateFederalIncomeTax(int Income)
 //************************************************
 void ShowFederalIncomeTax(string SocialSecurityNumber, double Tax) 
 {
-	cout << endl << "Hello " << SocialSecurityNumber << " here is your federal income tax  ." << Tax; // Outputs user federal income tax.
+	cout << endl << "Hello " << SocialSecurityNumber << " here is your federal income tax  " << Tax << "."; // Outputs user federal income tax.
 }
