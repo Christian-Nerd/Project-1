@@ -2,7 +2,7 @@
 //  
 // Project Name: P1
 // 
-// Project Purpose: Process indivual federal taxes, users will be indentified through a social security number. The program will get income and ssn then return federal income taxes. This program will run until user wishes to quit.
+// Project Purpose: Process indivual federal taxes, users will be indentified through a social security number. The program will get income and Social Security Number then return federal income taxes. This program will run until user wishes to quit.
 // 
 // Author: Trey Davis
 // 
@@ -26,24 +26,24 @@ string GetSocialSecurityNumber();
 int GetIncome();  
 // This computes the federal income tax of the user
 double EvaluateFederalIncomeTax(int Income /* IN: This value stores income obviously */);
-// This displays a message of this format "Hello user [ssn] here is your federal income tax [tax]."
+// This displays a message of this format "Hello user [Social Security Number] here is your federal income tax [tax]."
 void ShowFederalIncomeTax(string SocialSecurityNumber, // IN: Stores social security number obviously. 
 				         double Tax); // IN: Stores taxes obviously.
 bool CheckUserChoice(); // This checks if the user wants to continue.
 
 int main() 
 {
-	cout << fixed << setprecision(2) << showpoint;
+	cout << fixed << setprecision(2) << showpoint; // Adds manipulators to cout to show fixed decimals, with two significant figures, and showing trailing zeroes.
 	bool Still = true; // This stores whether the user wants to continue or not.
 	while (Still) // Keeps going until user chooses to exit 
 	{
-		string SocialSecurityNumber = GetSocialSecurityNumber(); // This variable stores ssn.
+		string SocialSecurityNumber = GetSocialSecurityNumber(); // This variable stores Social Security Number.
 		int Income = GetIncome(); // This variable stores income
 		double Tax = EvaluateFederalIncomeTax(Income); // This stores the tax
-		ShowFederalIncomeTax(SocialSecurityNumber, Tax);
+		ShowFederalIncomeTax(SocialSecurityNumber, Tax); // This shows federal income tax
 		Still = CheckUserChoice(); // Check if user wants to continue
 	} // Keeps going until user chooses to exit 
-	return 0;
+	return 0; // This means main returns with no errors.
 }
 
 //************************************************
@@ -53,89 +53,96 @@ int main()
 //  Return Value: The income
 //  Non-Local Variables Used: 0
 //  Functions Called: iostream.clear(), iostream.ignore()
-//
-//
-//
 //************************************************
-//
 int GetIncome() 
 {
 	int Income = 0; // Stores income
+	// Checks for invalid input and repeats program if invalid until it's valid 
 	while (true)
 	{
-		cout << endl << "Please enter income: " << endl << endl;
-		cin >> Income;
-		if (!cin) // Checks for input failure
+		cout << endl << "Please enter income: " << endl << endl; // Prompt Line for inputting income
+		cin >> Income; // Inputs User input into income
+		// Checks for input failure
+		if (!cin) 
 		{
-			cerr << endl << "Invalid input please enter integer income " << endl << endl;
+			cerr << endl << "Invalid input please enter integer income " << endl << endl; // Gives an error for invalid integer income.
 		    /* Lines 55 and 56 clear the buffer of input failure, and the characters that cause the failure. */
-			cin.clear();
-			cin.ignore(1e7, '\n'); 
-			Income = 0;
-			continue;
+			cin.clear(); // Clear the buffer of input failure.
+			cin.ignore(1e7, '\n'); // Clears the characters that cause the failure.
+			Income = 0; // Resets income
+			continue; // Skips to beginning of looprestarting the prompt with minimal memory losses.
 		}
+	    // If input succeeded 
 		else
 		{
 			cin.ignore(1e7, '\n'); // Clear buffer for next input and output operations
-			break;
+			break; // Breaks out of loop, as input is valid
 		}
 	}
 
-	return Income;
+	return Income; // Returns the income
 }
 
 
 
 //************************************************
 // Function Name: GetSocialSecurityNumber
-// Purpose: The function gets the user's ssn and returns it.
+// Purpose: The function gets the user's Social Security Number and returns it.
 // Parameters: 0.0 recursive
-// Return Values: The obvious the string ssn.
+// Return Values: The obvious the string Social Security Number.
 // Non-local Variables called: 0.0 recursive)
 // Functions Called: string.size(), string.at(), iostream.ignore() 
 //************************************************
 string GetSocialSecurityNumber() 
 {
-	string ssn; 
-	while (true) // This loop keeps going until a valid ssn is inputed
+	string SocialSecurityNumber; // Social Security Number
+	// This loop keeps going until a valid Social Security Number is inputed
+	while (true) 
 	{
 		bool validSsn = true; // This stores is Social Security Number is valid
 		int noOfZeroes = 0; // Checks number of zeroes
-		cout << "Please input Social Security Number: ";
-		cin >> ssn;
-		for (int i = 0; i < ssn.size(); i++) // Checks if social security number is only composed of digits 0-9, is only 9 digits long, and is not all zero 
+		cout << "Please input Social Security Number: "; // Promnt Line for social security number
+		cin >> SocialSecurityNumber; // Puts input into social security number
+		// Checks if social security number is only composed of digits 0-9, is only 9 digits long, and is not all zero
+		for (int i = 0; i < SocialSecurityNumber.size(); i++)  
 		{
-			char index = ssn.at(i); // Stores current character in string
-			if (index <= '9' && index >= '0') // Checks if digit is valid and if there's any all zero Social Security Number
+			char index = SocialSecurityNumber.at(i); // Stores current character in string
+			// Checks if digit is valid and if there's any all zero Social Security Number
+			if (index <= '9' && index >= '0') 
 			{
-				if (index == '0') // This both increments noOfZeroes and if the Social Security Number
+				// This both increments noOfZeroes and if the Social Security Number
+				if (index == '0') 
 				{
-					noOfZeroes++;
+					noOfZeroes++; // Increments zeroes by one.
+					// Checking if the Social Security Number is all zeroes.
 					if (noOfZeroes == 9)
 					{
-						validSsn = false;
-						break;
+						validSsn = false; // Sets validSsn false 
+						break; // breaks out of loop
 					}
 				}
-				validSsn = true;
-				continue;
+				validSsn = true; // Set valid ssn true for another iteration
+				continue; // Start loop again
 			}
+			// If invalid digit...
 			else 
 			{
-				validSsn = false;
-				break;
+				validSsn = false; // Sets validSsn
+				break; // Breaks out of while loop
 			}
-		} // Checks if digit is valid and if there's any all zero ssn
-		if (!cin || ssn.size() != 9 || validSsn == false)
+		} // Checks if digit is valid and if there's any all zero Social Security Number
+		// Checks if Social Security Number is valid
+		if (!cin || SocialSecurityNumber.size() != 9 || validSsn == false)
 		{
-			cerr << "Invalid input please input an integer Social Security Number 9 characters long, in the form xxxxxxxxx";
-			cerr <<	",and at least one non-zero character." << endl << endl;
-			cin.ignore(1000000, '\n');
+			cerr << "Invalid input please input an integer Social Security Number 9 characters long, in the form xxxxxxxxx"; // Explains the input requirements of the function after the user fails.
+			cerr <<	",and at least one non-zero character." << endl << endl; // Next line version or previous line
+			cin.ignore(1000000, '\n'); // Clear the buffer for receiving income.
 		}
+		// if Social Security Number is valid...
 		else
-			break;
-	} // This loop keeps going until a valid ssn is inputed
-	return ssn;
+			break; // get out of the while loop
+	} // This loop keeps going until a valid Social Security Number is inputed
+	return SocialSecurityNumber; // Return Social Security Number 
 }
 
 
@@ -145,23 +152,26 @@ string GetSocialSecurityNumber()
 // Parameters: None obviously.
 // Return Value: If the user wants to continue or not
 // Functions Called: none
-// 
 //************************************************
 bool CheckUserChoice() 
 {
-	while (true) // This while loop checks for valid choices, and keeps running until a valid choice is chosen.
+	// This while loop checks for valid choices, and keeps running until a valid choice is chosen.
+	while (true) 
 	{
-		cout << "\n\nPlease input if you want to still continue y/n" << endl << endl;
-		string Choice; // This stores user choice
-		cin >> Choice;
+		cout << "\n\nPlease input if you want to still continue y/n" << endl << endl; // Promnt line to indicate if the user wants to continue.
+		string Choice; // This stores user choice.
+		cin >> Choice; // Assigns user input into choice.
+		// Checks if the input is yes(case-insensitive)
 		if (CHECKIFYES)
-			return true;
+			return true; // Return that the user wants to continue.
+		// Checks if the input is no(case-insensitive)
 		else if (CHECKIFNO)
-			break;
+			break; // End while loop
+		// If invalid input...
 		else 
 		{
-			cerr << "Invalid input please input either y or n";
-			continue;
+			cerr << "Invalid input please input either y or n"; // error line stating what's wrong  
+			continue; // Run the loop again
 		}
 	} // This while loop checks for valid choices, and keeps running until a valid choice is chosen.
 
@@ -180,42 +190,45 @@ bool CheckUserChoice()
 double EvaluateFederalIncomeTax(int Income) 
 {
 	double Tax = 0; // Stores taxes
-	if (Income < 0) // Makes income positive if negative.
-		Income *= -1; 
+	// Makes income positive if negative.
+	if (Income < 0) 
+		Income *= -1; // Makes input positive
+	// Checks for if it falls for the first part of the tax forumn
 	if (Income > 0 && Income < 24'650)
 	{
-		Tax += (Income * .15);
+		Tax += (Income * .15); // Uses the first part of the tax forumn 0 + 15% of income to tax.
 	}
+	// Checks for if it falls for the second part of the tax forumn
 	else if (Income >= 24'650 && Income < 59'750)
 	{
-		Tax += 3'697.5 + (Income * .28);
+		Tax += 3'697.5 + (Income * .28); // Uses the second part of the tax forumn adding 3.697.5 + 28% of income to tax.
 	}
-
+	// Checks for if it falls for the third part of the tax forumn
 	else if (Income >= 59'750 && Income < 124'650)
 	{
-		Tax += 13'524.5 + ((Income -= 59'750) * .31);
+		Tax += 13'524.5 + ((Income -= 59'750) * .31); // Uses the third part of the tax forumn adding 13,524 + 31% of Income = Income - 59,750 to tax.
 	}
-
+	// Checks for if it falls for the fourth part of the tax forumn
 	else if (Income >= 124'650 && Income < 271'050)
 	{
-		Tax += 33'644.5 + ((Income -= 124'650) * .36);
+		Tax += 33'644.5 + ((Income -= 124'650) * .36); // Uses the third part of the tax forumn adding 33,644.5 + 36%  of Income = Income - 124,650 to tax.
 	}
-
+	// Checks for if it falls for the final part of the tax forumn
 	else if (Income >= 271'050) 
 	{
-		Tax += 86'348.5 + ((Income -= 271'050) * .396);
+		Tax += 86'348.5 + ((Income -= 271'050) * .396); // Uses the fourth part of the tax forumn adding 86,348.5 + 39.6%  of Income = Income - 271,050 to tax.
 	}
 
-	return Tax;
+	return Tax; // Returns tax
 }
 
 
 
 //************************************************
 // Function Name: ShowFederalIncomeTax 
-// Purpose: Outputs a message in this formal "Hello user [ssn] here is your federal income tax [tax]" 
+// Purpose: Outputs a message in this formal "Hello user [Social Security Number] here is your federal income tax [tax]" 
 // Parameters
-//     Input: string SocialSecurityNumber, double Tax
+//     Input: string Social Security Number, double Tax
 // Return Value: void tax	
 // Functions Called: 0
 //************************************************
