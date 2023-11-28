@@ -194,29 +194,29 @@ double EvaluateFederalIncomeTax(int Income)
 	if (Income < 0) 
 		Income *= -1; // Makes input positive
 	// Checks for if it falls for the first part of the tax forumn
-	if (Income > 0 && Income < 24'650)
+	if (Income >= 0)
 	{
 		Tax += (Income * .15); // Uses the first part of the tax forumn 0 + 15% of income to tax.
 	}
 	// Checks for if it falls for the second part of the tax forumn
-	else if (Income >= 24'650 && Income < 59'750)
+	if (Income >= 24'650)
 	{
-		Tax += 3'697.5 + (Income * .28); // Uses the second part of the tax forumn adding 3.697.5 + 28% of income to tax.
+		Tax += 3'697.5 + ((Income - 24'650) * .28); // Uses the second part of the tax forumn adding 3.697.5 + 28% of the amount over 24,650.
 	}
 	// Checks for if it falls for the third part of the tax forumn
-	else if (Income >= 59'750 && Income < 124'650)
+	 if (Income >= 59'750)
 	{
-		Tax += 13'524.5 + ((Income -= 59'750) * .31); // Uses the third part of the tax forumn adding 13,524 + 31% of Income = Income - 59,750 to tax.
+		Tax += 13'525.5 + ((Income - 59'750) * .31); // Uses the third part of the tax forumn adding 13,524 + 31% of e Income - 59,750 to tax.
 	}
 	// Checks for if it falls for the fourth part of the tax forumn
-	else if (Income >= 124'650 && Income < 271'050)
+	 if (Income >= 124'650)
 	{
-		Tax += 33'644.5 + ((Income -= 124'650) * .36); // Uses the third part of the tax forumn adding 33,644.5 + 36%  of Income = Income - 124,650 to tax.
+		Tax += 33'644.5 + ((Income - 124'650) * .36); // Uses the third part of the tax forumn adding 33,644.5 + 36%  of  Income - 124,650 to tax.
 	}
 	// Checks for if it falls for the final part of the tax forumn
-	else if (Income >= 271'050) 
+	if (Income >= 271'050) 
 	{
-		Tax += 86'348.5 + ((Income -= 271'050) * .396); // Uses the fourth part of the tax forumn adding 86,348.5 + 39.6%  of Income = Income - 271,050 to tax.
+		Tax += 86'348.5 + ((Income - 271'050) * .396); // Uses the fourth part of the tax forumn adding 86,348.5 + 39.6%  of  Income - 271,050 to tax.
 	}
 
 	return Tax; // Returns tax
